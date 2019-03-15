@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+	$(".bookROW").click(function(){
+		var b_id = $(this).attr("data-book-id")
+		location.href="${pageContext.request.contextPath}/bookview?MSG=&b_id=" + b_id
+	})
+})
+</script>
+<section>
+	<table>
+		<tr>
+			<th>사용자ID</th>
+			<th>도서코드</th>
+			<th>도서제목</th>
+			<th>독서일자</th>
+			<th>평점</th>
+		</tr>
+		<c:choose>
+			<c:when test="${empty BOOKS}">
+				<tr>
+					<td colspan="4">메모가 없습니다</td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach items="${BOOKS}" var="bookVO" varStatus="i">
+				<tr class="bookROW" data-book-id="${bookVO.b_id}">
+					<td>${bookVO.b_userid}</td>
+					<td>${bookVO.b_isbn}</td>
+					<td>${bookVO.b_title}</td>
+					<td>${bookVO.b_date}</td>
+					<td>${bookVO.b_star}</td>
+				</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
+	</table>
+</section>
